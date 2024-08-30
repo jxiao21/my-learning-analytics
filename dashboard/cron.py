@@ -179,6 +179,11 @@ class DashboardCronJob(CronJobBase):
                     invalid_course_id_list.append(course_id)
                 else:
                     logger.info(f"Course {course_id} doesn't have an entry in data warehouse yet. It hasn't been updated locally, so skipping.")
+            else:
+                # Update the last_accessed_date
+                course = Course.objects.get(id=course_id)
+                course.last_accessed_date = datetime.now()
+                course.save()
         if len(invalid_course_id_list) > 0:
             logger.error(f'Course {invalid_course_id_list} do not exist in data warehouse yet. ')
         if len(courses_data) == 0:
