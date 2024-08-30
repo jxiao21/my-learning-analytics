@@ -449,6 +449,9 @@ CANVAS_EVENT_URLS = ENV.get("CANVAS_EVENT_URLS", [])
 # Only need view permission for exports
 IMPORT_EXPORT_EXPORT_PERMISSION_CODE = 'view'
 
+# Fixed date limit
+DATE_LIMIT = '2022-01-01'
+
 # IMPORT LOCAL ENV
 # =====================
 try:

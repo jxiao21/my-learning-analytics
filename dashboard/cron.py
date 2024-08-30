@@ -1,4 +1,5 @@
 from datetime import datetime
+from .settings import DATE_LIMIT
 import logging
 from collections import namedtuple
 from typing import Any, Dict, List, Optional, Union
@@ -163,10 +164,14 @@ class DashboardCronJob(CronJobBase):
         supported_courses = Course.objects.get_supported_courses()
         course_ids = [str(x) for x in supported_courses.values_list('id', flat=True)]
 
+        # Convert DATE_LIMIT to a datetime object
+        date_limit = datetime.strptime(DATE_LIMIT, '%Y-%m-%d')
+
         courses_data = self.execute_bq_query(
             self.queries['course'],
             bigquery.QueryJobConfig(query_parameters=[
                 bigquery.ArrayQueryParameter('course_ids', 'STRING', course_ids),
+                bigquery.ScalarQueryParameter('date_limit', 'TIMESTAMP', date_limit),
             ])
         )
         courses_data = courses_data.to_dataframe()
