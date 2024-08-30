@@ -448,7 +448,7 @@ function AssignmentTable (props) {
                               <StyledTextField
                                 error={(a.goalGrade / a.pointsPossible) > 1}
                                 disabled={!courseGoalGradeSet}
-                                id='standard-number'
+                                id={`goal-grade-${key}`}
                                 value={roundToXDecimals(a.goalGrade, placeToRoundTo(a.pointsPossible))}
                                 label={
                                   !courseGoalGradeSet
@@ -536,6 +536,9 @@ function AssignmentTable (props) {
                         checked={!!a.goalGradeSetByUser}
                         onChange={event => handleAssignmentLock(a.id, event.target.checked)}
                         color='primary'
+                        inputProps={{
+                          'aria-label': 'Lock Goal'
+                        }}
                       />
                     </TableCell>
                   </TableRow>
